@@ -9,8 +9,8 @@
     .bottom-container {
       position: absolute; 
       height:200px; 
-      width:100%; 
-      bottom:0; background-color: #272727;
+      width:99.5%; 
+      bottom:5%; background-color: rgba(39, 39, 39, 0.88);
     }
 
     .bottom-container-1-4 {
@@ -32,17 +32,17 @@
     }
 
     .bottom-container-1-3 {
-      width: 24%;
+      width: 25%;
       height: 100%;
       float: left;
       box-sizing: border-box;
-      border: 2px solid #ffffff;
+      border: 1px solid #ffffff;
       position: relative;
     }
 
     .bottom-container-1-5 {
-      width: 30%;
-      height: 100%;
+      width: 25%;
+      height: 10%;
       float: left;
       box-sizing: border-box;
       border: 2px solid #ffffff;
@@ -50,11 +50,19 @@
     } 
 
     .bottom-container-1-8 {
-      width: 12.5%;
+      width: 16%;
       height: 100%;
       float: left;
       box-sizing: border-box;
       border: 2px solid #ffffff;
+      position: relative;
+    }
+    .bottom-container-1-9 {
+      width: 9%;
+      height: 100%;
+      float: left;
+      box-sizing: border-box;
+      border: 1px solid #ffffff;
       position: relative;
     }
 
@@ -125,7 +133,18 @@
       font-size:10px; 
       line-height:8px; 
     }
-
+    h5 {
+      color:#FFFFFF; 
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; 
+      font-size:28px; 
+      line-height:5px; 
+    }
+    h6 {
+      color:#FFFFFF; 
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; 
+      font-size:22px; 
+      line-height:5px; 
+    }
     .small-value {
       color:#FFFFFF; 
       font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; 
@@ -137,7 +156,7 @@
       position: absolute;
       color:#272727; 
       font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; 
-      font-size:12px; 
+      font-size:10px; 
     }
 
     
@@ -145,7 +164,7 @@
       position: absolute; 
       height:100px; 
       width:100%;
-      background-color: #0078a8;
+      background-color: #38547a;
     }
 
     .w3-table,.w3-table-all{border-collapse:collapse;border-spacing:0;width:100%;display:table}.w3-table-all{border:1px solid #ccc}
@@ -158,14 +177,14 @@
 .w3-light-blue,.w3-hover-light-blue:hover{color:#000!important;background-color:#87CEEB!important}
 .w3-brown,.w3-hover-brown:hover{color:#fff!important;background-color:#795548!important}
 .w3-cyan,.w3-hover-cyan:hover{color:#000!important;background-color:#00bcd4!important}
-.w3-blue-grey,.w3-hover-blue-grey:hover,.w3-blue-gray,.w3-hover-blue-gray:hover{color:#fff!important;background-color:#607d8b!important}
+.w3-blue-grey,.w3-hover-blue-grey:hover,.w3-blue-gray,.w3-hover-blue-gray:hover{color:#fff!important;background-color:#f16000!important}
 .w3-red,.w3-hover-red:hover{color:#fff!important;background-color:#FF652F!important}
 
 .raw-data-div {
   overflow-y: scroll !important;
   display:block !important;
-  height:750px !important;
-  width:100% !important;
+  height:600px !important;
+  width:49.5% !important;
 }
 
 .table-container {
@@ -179,18 +198,16 @@
 }
 
 .raw-data-container {
-  top: 0px;
-  height:38px !important;
-  width:99% !important;
-  right: 5px;
-  left: 0px;
+  top: 90px;
+  height:380px !important;
+  width:49.5% !important;
+  right: 0px;
   position: absolute;
 }
 
 .raw-text-area {
-  width:100%;
-  height:500%;
-  position: relative;
+  width:99%;
+  height:150%;
 }
 
 .hide-container {
@@ -277,7 +294,7 @@
                 <button id="refreshPortButton" style="width:99%;" onclick="window.showMap()">Maps</button>
             </div>
         </div>
-        <div class="bottom-container-1-8">
+        <div class="bottom-container-1-9">
           <span class="version-text">ByMachine</span>
             <img src="logo.jpg" style="width:100%; height:100%;">
         </div>
@@ -304,12 +321,17 @@
           </table>
         </div>
       </div>
+      <div class="raw-data-container">
+        <h2>Raw Data</h2>
+        <textarea id="rawData" class="raw-text-area"></textarea>
+      </div>      
 </div>
     <div class="bottom-container">
         <div class="bottom-container-1-3">
             <canvas id="gauge" class="gauge-style"></canvas>
             <span class="gauge-text-style">
-                &nbsp;&nbsp;Altitude<br>
+                &nbsp;&nbsp;<span id="alt_text">Yükseklik</span><br>
+
                 <span class="gauge-value-style" id="altitude">1552</span>
                 <span class="gauge-unit-style">m</span>
             </span>
@@ -317,28 +339,23 @@
         <div class="bottom-container-1-3">
             <canvas id="gauge3" class="gauge-style"></canvas>
             <span class="gauge-text-style">
-                &nbsp;&nbsp;Speed<br>
+                &nbsp;&nbsp;<span id="hiz_text">Hız</span><br>
+                
                 <span class="gauge-value-style" id="hiz">250</span>
                 <span class="gauge-unit-style">m/s</span>
             </span>
         </div>
-        <div class="bottom-container-1-5">
-            <div style="align-content: center">
-              <div class="raw-data-container">
-                <textarea id="rawData" class="raw-text-area"></textarea>
-              
-              <!--
-                <canvas id="gauge2" class="gauge-style"></canvas>
-                <span class="gauge-text-style">
-                    Temperature<br>
-                    <span style="font-size:55px;" id="temperature">30</span>
-                    <span class="gauge-unit-style">°C</span>
-                </span>
-              -->
-            </div>
+
+        <div class="bottom-container-1-3">
+            <canvas id="gauge4" class="gauge-style"></canvas>
+            <span class="gauge-text-style">
+                &nbsp;&nbsp;<span id="press_text">Basınç</span><br>
+                
+                <span class="gauge-value-style" id="pressure">10000</span>
+                <span class="gauge-unit-style">psi</span>
+            </span>
         </div>
-    </div>
-        <div class="bottom-container-1-4">
+        <div class="bottom-container-1-3">
             <!--
             <div style="position:absolute; margin-left: 20px;">
                 <h3>Acc</h3>
@@ -356,17 +373,10 @@
                 <p class="small-value"><span id="pressure">12312</span> psi</p>
             </div>
             <div style="position:absolute;bottom:0; width:100%; left: 2%; text-align: left">
-                <h3>State:<span id="state_text">Waiting</span></h3>
+                <h5>Durum:</h5>
+                <h6><span id="state_text">Beklemede</span><h6>
             </div>
-        <!--
-          <div class="heading-gauge">
-              <img class="head_rotate heading" src="img/horizon_back.svg">
-              <img class="head_rotate heading" src="img/horizon_ball.svg">
-              <img class="head_rotate heading" src="img/horizon_circle.svg">
-              <img class="heading" src="img/horizon_mechanics.svg">
-          </div>
-        -->
-        </div>
+
 
   </div>
     <div id="preview-textfield"></div>
@@ -392,24 +402,7 @@
 
     var map = L.map('map').setView([38.356622, 34.0283394], 13);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { }).addTo(map);
-/*
-    pointList = [];
-    
-            var p = new L.LatLng(gpslon,gpslat);
-            pointList.push(p);
 
-    var routepolyline = new L.Polyline(pointList, {
-                color: 'blue',
-                weight: 5,
-                opacity: 0.5,
-                smoothFactor: 1
-            });
-            routepolyline.addTo(map);
-
-    L.marker([51.5, -0.09]).addTo(map)
-    .bindPopup('Varda SkyTeam.<br> 2021 Rocket Flight.')
-    .openPopup();
-*/
     
     var marker = undefined;
 
@@ -440,7 +433,7 @@
       pointer: {
         length: 0.61, // // Relative to gauge radius
         strokeWidth: 0.035, // The thickness
-        color: '#FF652F' // Fill color
+        color: '#0078A8' // Fill color
       },
       limitMax: false,     // If false, max value increases automatically if value > maxValue
       limitMin: false,     // If true, the min value of the gauge will be fixed
@@ -456,6 +449,7 @@
     altitudeGauge = new Gauge.Gauge(target).setOptions(opts);
     altitudeGauge.maxValue = 6500;
     altitudeGauge.set(0);
+
     var opts = {
       angle: -0.25,
       lineWidth: 0.2,
@@ -471,11 +465,13 @@
         color: "#FFFFFF",
         fractionDigits: 0
       },
+/*
       staticZones: [
          {strokeStyle: "#30B32D", min: 0, max: 30},
          {strokeStyle: "#FFE400", min: 30, max: 40},
          {strokeStyle: "#F03E3E", min: 40, max: 75}
       ],
+*/      
       renderTicks: {
         divisions: 5,
         divWidth: 1.1,
@@ -513,7 +509,7 @@
     var Gauge = require('./gauge.js');
     var target = document.getElementById("gauge3");
     hizGauge = new Gauge.Gauge(target).setOptions(opts);
-    hizGauge.maxValue = 600;
+    hizGauge.maxValue = 500;
     hizGauge.set(0);
     var opts = {
       angle: -0.25,
@@ -530,11 +526,13 @@
         color: "#FFFFFF",
         fractionDigits: 0
       },
+/*
       staticZones: [
          {strokeStyle: "#30B32D", min: 0, max: 30},
          {strokeStyle: "#FFE400", min: 30, max: 40},
          {strokeStyle: "#F03E3E", min: 40, max: 75}
       ],
+*/  
       renderTicks: {
         divisions: 5,
         divWidth: 1.1,
@@ -549,6 +547,68 @@
       limitMin: false,
       highDpiSupport: true
     };
+
+    var opts = {
+      angle: -0.25, // The span of the gauge arc
+      lineWidth: 0.2, // The line thickness
+      radiusScale: 1, // Relative radius
+      pointer: {
+        length: 0.61, // // Relative to gauge radius
+        strokeWidth: 0.035, // The thickness
+        color: '#EEFF2F' // Fill color
+      },
+      limitMax: false,     // If false, max value increases automatically if value > maxValue
+      limitMin: false,     // If true, the min value of the gauge will be fixed
+      colorStart: '#14A76C',   // Colors
+      colorStop: '#14A76C',    // just experiment with them
+      strokeColor: '#747474',  // to see which ones work best for you
+      generateGradient: true,
+      highDpiSupport: true,     // High resolution support
+      
+    };
+
+    var Gauge = require('./gauge.js');
+    var target = document.getElementById("gauge4");
+    pressGauge = new Gauge.Gauge(target).setOptions(opts);
+    pressGauge.maxValue = 200000;
+    pressGauge.set(0);
+    var opts = {
+      angle: -0.25,
+      lineWidth: 0.2,
+      radiusScale:0.9,
+      pointer: {
+        length: 0.6,
+        strokeWidth: 0.05,
+        color: '#FF652F'
+      },
+      staticLabels: {
+        font: "14px sans-serif",
+        labels: [30, 40, 75],
+        color: "#FFFFFF",
+        fractionDigits: 0
+      },
+/*
+      staticZones: [
+         {strokeStyle: "#30B32D", min: 0, max: 30},
+         {strokeStyle: "#FFE400", min: 30, max: 40},
+         {strokeStyle: "#F03E3E", min: 40, max: 75}
+      ],
+*/  
+      renderTicks: {
+        divisions: 5,
+        divWidth: 1.1,
+        divLength: 0.27,
+        divColor: '#000000',
+        subDivisions: 3,
+        subLength: 0.5,
+        subWidth: 0.6,
+        subColor: '#272727'
+      },
+      limitMax: false,
+      limitMin: false,
+      highDpiSupport: true
+    };
+
 /*
 var target = document.getElementById('gauge2'); // your canvas element
 var temperatureGauge = new Gauge.Gauge(target).setOptions(opts); // create sexy gauge!
@@ -557,12 +617,13 @@ temperatureGauge.animationSpeed = 81; // set animation speed (32 is default valu
 temperatureGauge.set(0); // set actual value*/
 
 </script>
-    <script>
+<script>
       require('./renderer.js')
       require('./uiPresenter.js')
-    </script>
+</script>
 
 <script>
+
     var dataMapper = new DataDomainToDataModel();
     var rfMapper = new RFEntityToDataDomain();
     window.messageHandler = function(message) {
@@ -587,7 +648,8 @@ temperatureGauge.set(0); // set actual value*/
             modal.style.display = "none";
         }
     }
-    
+
+
     function newLoc(model) {
       gpslon = document.getElementById("long");
       gpslat = document.getElementById("lat");
@@ -614,9 +676,14 @@ temperatureGauge.set(0); // set actual value*/
       //acc_z.innerHTML = model.acc_z;
       altitudeGauge.set(model.altitude);
       hizGauge.set(model.hiz);
+      pressGauge.set(model.pressure);
+
       //temperature.innerHTML = model.temperature;
       //temperatureGauge.set(model.temperature);
       handleStateText(model);
+      handleStatehiz(model);
+      handleStatealt(model);
+      handleStatepress(model);
       addMarkerIfVisible(model.long, model.lat);
     }
 
@@ -624,19 +691,46 @@ temperatureGauge.set(0); // set actual value*/
       stateTextView = document.getElementById("state_text");
       currentState = model.state;
       
-      if (currentState == "2") {
-        stateTextView.innerHTML = "Launched";
+      if (currentState == "1") {
+        stateTextView.innerHTML = "Uçuş Başladı";
+      } else if (currentState == "2") {
+        stateTextView.innerHTML = "Sürüklenme Paraşütü";
+      } else if (currentState == "3") {
+        stateTextView.innerHTML = "Ana Paraşüt";
+      } else if (currentState == "4") {
+        stateTextView.innerHTML = "Faydalı Yük";
       } else if (currentState == "5") {
-        stateTextView.innerHTML = "Drag Opened";
-      } else if (currentState == "6") {
-        stateTextView.innerHTML = "Dragging";
-      } else if (currentState == "7") {
-        stateTextView.innerHTML = "Main Opened";
-      } else if (currentState == "8") {
-        stateTextView.innerHTML = "Landing";
+        stateTextView.innerHTML = "Yerde";
       } else {
-        stateTextView.innerHTML = "Waiting";
+        stateTextView.innerHTML = "Beklemede";
       }
+    }
+
+    function handleStatehiz(model) {
+      statehizView = document.getElementById("hiz_text");
+      currentState_hiz = model.hiz;
+      statehizView.innerHTML = "İrtifa Hızı";
+      /*
+      if (currentState_hiz >= "10.0") {
+        statehizView.innerHTML = "Normal Hız";
+      }
+
+      if (currentState_hiz >= "15.0") {
+        statehizView.innerHTML = "Yüksek Hız";
+      }*/
+
+    }
+
+    function handleStatealt(model) {
+      statealtView = document.getElementById("alt_text");
+      currentState_alt = model.altitude;
+      statealtView.innerHTML = "İrtifa Yüksekliği";
+    }
+
+    function handleStatepress(model) {
+      statepressView = document.getElementById("press_text");
+      currentState_press = model.pressure;
+      statepressView.innerHTML = "İrtifa Basıncı";
     }
 
     function fillTable(model) {
@@ -644,7 +738,7 @@ temperatureGauge.set(0); // set actual value*/
       var row = table.insertRow(1);
       row.classList.add("w3-hover-blue");
       row.insertCell(0).innerHTML = model.packetId;
-      //row.insertCell(1).innerHTML = model.time;
+      //row.insertCell(1).innerHTML = model.txt;
       //row.insertCell(2).innerHTML = model.temperature;
       row.insertCell(1).innerHTML = model.pressure;
       row.insertCell(2).innerHTML = model.altitude;
@@ -656,6 +750,9 @@ temperatureGauge.set(0); // set actual value*/
 
 
 </script>
+
+
+
 
   </body>
 </html>
