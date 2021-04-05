@@ -103,14 +103,14 @@
 
     .heading {
       position: absolute;
-      width: 250px;
-      height: 250px;
+      width: 200px;
+      height: 200px;
     }
 
     .heading-gauge {
-      width: 250px;
+      width: 230px;
       margin: auto;
-      margin-top: -70px;
+      margin-top: 0px;
       
     }
 
@@ -197,6 +197,14 @@
   position: fixed;
 }
 
+.txt-container {
+  top: 90px;
+  height:380px !important;
+  width:49.5% !important;
+  right: 0px;
+  position: absolute;
+}
+
 .raw-data-container {
   top: 90px;
   height:380px !important;
@@ -260,7 +268,8 @@
 <script src="mappers/DataDomainToDataModel.js"></script>
 <script src="mappers/RFEntityToDataDomain.js"></script>
 
-  <body style="margin:0px">
+  <body style="margin:0px" onload="startTime()">
+    
     <div class="top-container">
         <div class="bottom-container-1-6">
             <h3 style="margin-left:10px">Connection</h3>
@@ -277,30 +286,33 @@
         </div>
 
         <div class="bottom-container-1-2">
-            <h3 style="width:100%; text-align: center ">Varda SkyTeam 2021 YER İSTASYONU YAZILIMI</h3>
-            <!-- 
-            <div style="margin-top:-15px; margin-left:10px; margin-right:10px; ">            
-               
-                <button id="connectButton" style="width:49%; height:23px;" onclick="window.openDragParachute()">Open Drag Parachute</button>
-                <button id="refreshPortButton" style="width:49%; height:23px;" onclick="window.openMainParachute()">Open Main Parachute</button>
-                <button id="refreshPortButton" style="width:49%; height:23px; margin-top:5px;" onclick="window.rereferencing()">RE-Referencing</button>
-            </div>
-            -->
+            <h3 style="width:100%; text-align: center ">Varda SkyTeam 2021 YER İSTASYONU YAZILIMI </br><img src="img/rocket.gif" style="width:6%; height:6%;"></h3>
+
+            
         </div>
         <div class="bottom-container-1-8">
             <h3 style="margin-left:10px; ">Window</h3>
             <div style="margin-top:-12px; margin-left:10px; margin-right:10px; ">            
                 <button id="connectButton" style="width:99%; margin-bottom:5px;" onclick="window.showRaw()">Raw Data</button>
                 <button id="refreshPortButton" style="width:99%;" onclick="window.showMap()">Maps</button>
+               <!-- <button id="refreshPortButton" style="width:99%;" onclick="window.showtxt()">txt</button> -->
             </div>
         </div>
         <div class="bottom-container-1-9">
           <span class="version-text">ByMachine</span>
-            <img src="logo.jpg" style="width:100%; height:100%;">
+            <img src="img/logo.jpg" style="width:100%; height:100%;">
         </div>
     </div>
 
 <div id="map" class="hide-container map-container"></div>
+
+<!-- <div id="txtContainer">class="w3-button w3-black"
+  <div class="txt-container">
+    <div><object data="file.txt"></object>
+    </div>
+  </div>
+</div> -->
+
 <div id="rawContainer">
     <div class="table-container">
         <div class="raw-data-div">
@@ -373,9 +385,22 @@
                 <p class="small-value"><span id="pressure">12312</span> psi</p>
             </div>
             <div style="position:absolute;bottom:0; width:100%; left: 2%; text-align: left">
+                <h3>Saat</h3>
+                <p class="small-value" id="txt"></p>
+                <h3>Durum</h3>
+                <p class="small-value" id="state_text">Beklemede</p>
+<!--
+                <h6>Saat:<span id='txt'></span></h6>
                 <h5>Durum:</h5>
                 <h6><span id="state_text">Beklemede</span><h6>
+
             </div>
+            <div class="heading-gauge">
+                <span id="attitude"></span>
+            </div>
+-->
+
+
 
 
   </div>
@@ -396,20 +421,63 @@
   /*#map { position: fixed;  bottom: 0;  width: 640px; height:480px; }*/
   #map { position: fixed;  bottom:0; right:0; left:0;  }
 </style>
+
+<script type="text/javascript">
+    function startTime()
+    {
+      var today=new Date();
+      var h=today.getHours();
+      var m=today.getMinutes();
+      var s=today.getSeconds();
+      // add a zero in front of numbers<10
+      m=checkTime(m);
+      s=checkTime(s);
+      document.getElementById('txt').innerHTML=h+":"+m+":"+s;
+      t=setTimeout('startTime()',500);
+    }
+    function checkTime(i)
+    {
+      if (i<10)
+      {
+      i="0" + i;
+      }
+      return i;
+    }
+</script>
+
 <script>
 
     window.L = require('leaflet')
 
-    var map = L.map('map').setView([38.356622, 34.0283394], 13);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { }).addTo(map);
+    var map = L.map('map').setView([38.356622, 34.0283394], 5 );
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+    //var caricon = L.icon({ iconUrl: 'https://icons.iconarchive.com/icons/google/noto-emoji-travel-places/256/42598-rocket-icon.png', iconSize: [32, 32] });
+    //car=L.marker([38.356622, 34.0283394], {icon: caricon }).addTo(map);
 
-    
-    var marker = undefined;
+    var line = L.polyline([], {color: 'red'}).addTo(map);
+    var marker = null;
+
+    function gpssave (model) {
+
+        var lat = parseFloat(model.lat),
+            long = parseFloat(model.long),
+            point = {lat: lat, lng: long};
+
+        if (!marker) {
+            marker = L.marker(point).addTo(map)
+        }
+
+        line.addLatLng(point);
+        marker.setLatLng(point);
+        map.setView(point, 13, { animation: true }); 
+        //car.setLatLng(point);
+    }
+
 
     var clearMarker = function(){
-      if (marker != undefined) {
+      if (marker != null) {
         map.removeLayer(marker)
-        marker = undefined;
+        marker = null;
       }
     }
     
@@ -417,6 +485,7 @@
       clearMarker();
       marker = new L.Marker([x, y], {draggable:false});
       map.addLayer(marker);
+      //var polyline = new L.polyline([x, y], {color: 'red'}).addTo(map);
     }
 
     var addMarkerIfVisible = function (x,y) {
@@ -425,6 +494,7 @@
         addMarker(x, y);
       }
     }
+
 
     var opts = {
       angle: -0.25, // The span of the gauge arc
@@ -465,13 +535,7 @@
         color: "#FFFFFF",
         fractionDigits: 0
       },
-/*
-      staticZones: [
-         {strokeStyle: "#30B32D", min: 0, max: 30},
-         {strokeStyle: "#FFE400", min: 30, max: 40},
-         {strokeStyle: "#F03E3E", min: 40, max: 75}
-      ],
-*/      
+     
       renderTicks: {
         divisions: 5,
         divWidth: 1.1,
@@ -526,13 +590,7 @@
         color: "#FFFFFF",
         fractionDigits: 0
       },
-/*
-      staticZones: [
-         {strokeStyle: "#30B32D", min: 0, max: 30},
-         {strokeStyle: "#FFE400", min: 30, max: 40},
-         {strokeStyle: "#F03E3E", min: 40, max: 75}
-      ],
-*/  
+ 
       renderTicks: {
         divisions: 5,
         divWidth: 1.1,
@@ -587,13 +645,7 @@
         color: "#FFFFFF",
         fractionDigits: 0
       },
-/*
-      staticZones: [
-         {strokeStyle: "#30B32D", min: 0, max: 30},
-         {strokeStyle: "#FFE400", min: 30, max: 40},
-         {strokeStyle: "#F03E3E", min: 40, max: 75}
-      ],
-*/  
+ 
       renderTicks: {
         divisions: 5,
         divWidth: 1.1,
@@ -609,12 +661,6 @@
       highDpiSupport: true
     };
 
-/*
-var target = document.getElementById('gauge2'); // your canvas element
-var temperatureGauge = new Gauge.Gauge(target).setOptions(opts); // create sexy gauge!
-temperatureGauge.maxValue = 75; // set max gauge value
-temperatureGauge.animationSpeed = 81; // set animation speed (32 is default value)
-temperatureGauge.set(0); // set actual value*/
 
 </script>
 <script>
@@ -685,6 +731,7 @@ temperatureGauge.set(0); // set actual value*/
       handleStatealt(model);
       handleStatepress(model);
       addMarkerIfVisible(model.long, model.lat);
+      gpssave(model);
     }
 
     function handleStateText(model) {
@@ -709,7 +756,7 @@ temperatureGauge.set(0); // set actual value*/
     function handleStatehiz(model) {
       statehizView = document.getElementById("hiz_text");
       currentState_hiz = model.hiz;
-      statehizView.innerHTML = "İrtifa Hızı";
+      statehizView.innerHTML = "Speed";
       /*
       if (currentState_hiz >= "10.0") {
         statehizView.innerHTML = "Normal Hız";
@@ -724,13 +771,13 @@ temperatureGauge.set(0); // set actual value*/
     function handleStatealt(model) {
       statealtView = document.getElementById("alt_text");
       currentState_alt = model.altitude;
-      statealtView.innerHTML = "İrtifa Yüksekliği";
+      statealtView.innerHTML = "Altitude";
     }
 
     function handleStatepress(model) {
       statepressView = document.getElementById("press_text");
       currentState_press = model.pressure;
-      statepressView.innerHTML = "İrtifa Basıncı";
+      statepressView.innerHTML = "Pressure";
     }
 
     function fillTable(model) {
@@ -738,7 +785,7 @@ temperatureGauge.set(0); // set actual value*/
       var row = table.insertRow(1);
       row.classList.add("w3-hover-blue");
       row.insertCell(0).innerHTML = model.packetId;
-      //row.insertCell(1).innerHTML = model.txt;
+      //row.insertCell(1).innerHTML = model.time;
       //row.insertCell(2).innerHTML = model.temperature;
       row.insertCell(1).innerHTML = model.pressure;
       row.insertCell(2).innerHTML = model.altitude;
@@ -750,9 +797,6 @@ temperatureGauge.set(0); // set actual value*/
 
 
 </script>
-
-
-
 
   </body>
 </html>
