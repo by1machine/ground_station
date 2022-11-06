@@ -8,4 +8,5 @@ npm install
 npm start
 
 
-![Software usage](doc/mockup.png)
+![Software usage](/main.png)
+![Software usage](/maps_page.png)
