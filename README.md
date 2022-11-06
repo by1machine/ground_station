@@ -11,6 +11,8 @@ npm install
 
 npm start
 
+Start the example_code_for_arduino.ino file in the program with the usb. You can then change it as you wish.
+
 ## Main Page
 ![Software usage](/main.png)
 
